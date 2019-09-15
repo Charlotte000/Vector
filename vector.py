@@ -1,4 +1,4 @@
-from math import sqrt, atan, pi, cos, sin
+from math import sqrt, atan, pi
 
 
 class Vector:
@@ -14,19 +14,23 @@ class Vector:
                 self.projection.extend([0] * (len(vector.projection) - len(self.projection)))
             for i in range(len(vector.projection)):
                 self.projection[i] += vector.projection[i]
+        return self
 
     def remove(self, *vectors):
         for vector in vectors:
             vector2 = Vector.get_copy(vector)
             vector2.multiply(-1)
             self.add(vector2)
+        return self
 
     def multiply(self, value):
         for i in range(len(self.projection)):
             self.projection[i] *= value
+        return self
 
     def set_length(self, length):
         self.multiply(length / self.length())
+        return self
 
     def length(self):
         return sqrt(sum([pow(d, 2) for d in self.projection]))
@@ -62,11 +66,17 @@ class Vector:
         return self.projection[item]
 
     @staticmethod
-    def get_from_points(point1, point2):
+    def fromPoints(point1, point2):
         v1 = Vector(*point1)
         v2 = Vector(*point2)
         v2.remove(v1)
         return v2
+
+    @staticmethod
+    def fromAngle(angle):
+        v = Vector(1, 0)
+        v.rotate2d(angle)
+        return v
 
     @staticmethod
     def get_copy(v):
