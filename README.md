@@ -49,9 +49,14 @@ _Vector.rotate2d(angle)_ - rotates the vector by Z axis by _angle_ in radians
 v1.rotate2D(3.14)
 ```
 ---
-_Vector.get_from_points(point1, point2)_ - returns the vector between point1 and point2
+_Vector.fromPoints(point1, point2)_ - returns the vector between point1 and point2
 ```python
-Vector.get_from_points([1, 2, 3], [4, 5])
+Vector.fromPoints([1, 2, 3], [4, 5])
+```
+---
+_Vector.fromAngle(angle)_ - returns the unit vector with _angle_
+```python
+Vector.fromAngle(pi / 2)
 ```
 ---
 _Vector.get_average(*vectors)_ - returns the mean vector
