@@ -21,12 +21,12 @@ v1.remove(v2)
 ---
 _Vector.mult(value)_ - multiplies v1 by _number_
 ```python
-v1.multiply(5)
+v1.mult(5)
 ```
 ---
 _Vector.setLength(length)_ - sets the vector length to _length_
 ```python
-v1.set_length(1)
+v1.setLength(1)
 ```
 ---
 _Vector.length()_ - returns the vector length
@@ -36,7 +36,7 @@ v1.length()
 ---
 _Vector.round()_ - returns the rounded projection of the vector as a tuple
 ```python
-v1.get_rounded()
+v1.round()
 ```
 ---
 _Vector.rotate2d(angle)_ - rotates the vector by Z axis by _angle_ in radians
@@ -56,5 +56,5 @@ Vector.fromAngle(pi / 2)
 ---
 _Vector.average(*vectors)_ - returns the mean vector
 ```python
-Vector.get_average(v1, v2)
+Vector.average(v1, v2)
 ```

@@ -1,4 +1,4 @@
-from math import sqrt, atan, pi
+from math import sqrt, atan, pi, cos, sin
 
 
 class Vector:
@@ -18,8 +18,8 @@ class Vector:
 
     def remove(self, *vectors):
         for vector in vectors:
-            vector2 = Vector.get_copy(vector)
-            vector2.multiply(-1)
+            vector2 = vector.copy()
+            vector2.mult(-1)
             self.add(vector2)
         return self
 
@@ -29,7 +29,7 @@ class Vector:
         return self
 
     def setLength(self, length):
-        self.multiply(length / self.length())
+        self.mult(length / self.length())
         return self
 
     def length(self):
@@ -60,15 +60,6 @@ class Vector:
     def copy(self):
         return Vector(*[i for i in self.projection])
     
-    def __str__(self):
-        return 'Vector' + str(self.projection) + ""
-
-    def __getitem__(self, item):
-        if item >= len(self.projection):
-            return 0
-        return self.projection[item]
-    
-
     @staticmethod
     def fromPoints(point1, point2):
         v1 = Vector(*point1)
@@ -81,11 +72,37 @@ class Vector:
         v = Vector(1, 0)
         v.rotate2d(angle)
         return v
-
     
     @staticmethod
     def average(*vectors):
         v = Vector()
         v.add(*vectors)
-        v.multiply(1 / len(vectors))
+        v.mult(1 / len(vectors))
         return v
+
+    def __add__(self, vector):
+        if isinstance(vector, Vector):
+            return self.copy().add(vector)
+
+    def __sub__(self, vector):
+        if isinstance(vector, Vector):
+            return self.copy().remove(vector)
+
+    def __mul__(self, number):
+        if type(number) in [int, float]:
+            return self.copy().mult(number)
+
+    def __truediv__(self, number):
+        if type(number) in [int, float]:
+            return self.copy().mult(1 / number)
+
+    def __round__(self):
+        return self.round()
+
+    def __str__(self):
+        return 'Vector' + str(self.projection) + ""
+
+    def __getitem__(self, item):
+        if item >= len(self.projection):
+            return 0
+        return self.projection[item]
