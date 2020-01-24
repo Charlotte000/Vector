@@ -23,12 +23,12 @@ class Vector:
             self.add(vector2)
         return self
 
-    def multiply(self, value):
+    def mult(self, value):
         for i in range(len(self.projection)):
             self.projection[i] *= value
         return self
 
-    def set_length(self, length):
+    def setLength(self, length):
         self.multiply(length / self.length())
         return self
 
@@ -45,7 +45,7 @@ class Vector:
             return -pi / 2
         return 0
 
-    def get_rounded(self):
+    def round(self):
         return [round(i) for i in self.projection]
 
     def rotate2d(self, angle):
@@ -57,6 +57,9 @@ class Vector:
         self.projection[0], self.projection[1] = x, y
         return self
 
+    def copy(self):
+        return Vector(*[i for i in self.projection])
+    
     def __str__(self):
         return 'Vector' + str(self.projection) + ""
 
@@ -64,6 +67,7 @@ class Vector:
         if item >= len(self.projection):
             return 0
         return self.projection[item]
+    
 
     @staticmethod
     def fromPoints(point1, point2):
@@ -78,12 +82,9 @@ class Vector:
         v.rotate2d(angle)
         return v
 
-    @staticmethod
-    def get_copy(v):
-        return Vector(*[i for i in v.projection])
     
     @staticmethod
-    def get_average(*vectors):
+    def average(*vectors):
         v = Vector()
         v.add(*vectors)
         v.multiply(1 / len(vectors))

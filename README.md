@@ -19,12 +19,12 @@ _Vector.remove(*vectors)_ - subtracts all _vectors_ from v1
 v1.remove(v2)
 ```
 ---
-_Vector.multiply(value)_ - multiplies v1 by _number_
+_Vector.mult(value)_ - multiplies v1 by _number_
 ```python
 v1.multiply(5)
 ```
 ---
-_Vector.set_length(length)_ - sets the vector length to _length_
+_Vector.setLength(length)_ - sets the vector length to _length_
 ```python
 v1.set_length(1)
 ```
@@ -34,12 +34,7 @@ _Vector.length()_ - returns the vector length
 v1.length()
 ```
 ---
-_Vector.length()_ - returns the angle of the vector relative to X axis
-```python
-v1.angle()
-```
----
-_Vector.get_rounded()_ - returns the rounded projection of the vector as a tuple
+_Vector.round()_ - returns the rounded projection of the vector as a tuple
 ```python
 v1.get_rounded()
 ```
@@ -59,7 +54,7 @@ _Vector.fromAngle(angle)_ - returns the unit vector with _angle_
 Vector.fromAngle(pi / 2)
 ```
 ---
-_Vector.get_average(*vectors)_ - returns the mean vector
+_Vector.average(*vectors)_ - returns the mean vector
 ```python
 Vector.get_average(v1, v2)
 ```
