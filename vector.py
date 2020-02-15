@@ -1,4 +1,5 @@
 from math import sqrt, atan, pi, cos, sin
+from random import uniform
 
 
 class Vector:
@@ -36,9 +37,15 @@ class Vector:
         return sqrt(sum([pow(d, 2) for d in self.projection]))
 
     def angle(self):
-        ax, ay = self.projection
+        if len(self.projection) < 2:
+            if len(self.projection) == 1:
+                ax, ay = self.projection[0], 0
+            else:
+                ax, ay = 0, 0
+        else:
+            ax, ay = self.projection[:2]
         if ax:
-            return atan(ay / ax) + pi / 2
+            return atan(ay / ax)
         if ay > 0:
             return pi / 2
         if ay < 0:
@@ -79,6 +86,10 @@ class Vector:
         v.add(*vectors)
         v.mult(1 / len(vectors))
         return v
+
+    @staticmethod
+    def random(dimension=2):
+        return Vector(*[uniform(-1, 1) for _ in range(dimension)])
 
     def __add__(self, vector):
         if isinstance(vector, Vector):

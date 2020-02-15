@@ -58,3 +58,8 @@ _Vector.average(*vectors)_ - returns the mean vector
 ```python
 Vector.average(v1, v2)
 ```
+---
+_Vector.random(dimension)_ - returns the random unit vector of _dimension_
+```python
+Vector.random(3)
+```
