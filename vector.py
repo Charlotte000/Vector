@@ -114,6 +114,6 @@ class Vector:
         return 'Vector' + str(self.projection) + ""
 
     def __getitem__(self, item):
-        if item >= len(self.projection):
+        if isinstance(item, int) and item >= len(self.projection):
             return 0
         return self.projection[item]
