@@ -89,7 +89,9 @@ class Vector:
 
     @staticmethod
     def random(dimension=2):
-        return Vector(*[uniform(-1, 1) for _ in range(dimension)])
+        a = Vector(*[uniform(-1, 1) for _ in range(dimension)])
+        a.setLength(1)
+        return a
 
     def __add__(self, vector):
         if isinstance(vector, Vector):
