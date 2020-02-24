@@ -44,13 +44,28 @@ class Vector:
                 ax, ay = 0, 0
         else:
             ax, ay = self.projection[:2]
-        if ax:
-            return atan(ay / ax)
-        if ay > 0:
-            return pi / 2
-        if ay < 0:
-            return -pi / 2
-        return 0
+
+        if ax > 0:
+            if ay > 0:
+                return atan(ay / ax)
+            elif ay < 0:
+                return atan(ay / ax) + pi * 2
+            else:
+                return 0
+        elif ax < 0:
+            if ay > 0:
+                return pi + atan(ay / ax)
+            elif ay < 0:
+                return pi + atan(ay / ax)
+            else:
+                return pi
+        else:
+            if ay > 0:
+                return pi * .5
+            elif ay < 0:
+                return pi * 1.5
+            else:
+                return 0
 
     def round(self):
         return [round(i) for i in self.projection]
