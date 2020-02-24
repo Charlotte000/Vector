@@ -149,6 +149,3 @@ class Vector:
         if isinstance(item, int) and item >= len(self.projection):
             return 0
         return self.projection[item]
-
-from math import degrees
-print(degrees(Vector.angleBetween(Vector(1), Vector(0, 0))))
