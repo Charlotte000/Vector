@@ -1,4 +1,4 @@
-from math import sqrt, atan, pi, cos, sin
+from math import sqrt, atan, pi, cos, sin, acos
 from random import uniform
 
 
@@ -107,6 +107,21 @@ class Vector:
         a = Vector(*[uniform(-1, 1) for _ in range(dimension)])
         a.setLength(1)
         return a
+    
+    @staticmethod
+    def angleBetween(v1, v2):
+        v11 = v1.copy()
+        v22 = v2.copy()
+
+        if len(v11.projection) == 1:
+            v11.projection.append(0)
+        if len(v22.projection) == 1:
+            v22.projection.append(0)
+        if v11.length() != 0 and v22.length() != 0:
+            a = sum([v11[i] * v22[i] for i in range(2)]) / v11.length() / v22.length()
+            return acos(a)
+        return 0
+
 
     def __add__(self, vector):
         if isinstance(vector, Vector):
@@ -134,3 +149,6 @@ class Vector:
         if isinstance(item, int) and item >= len(self.projection):
             return 0
         return self.projection[item]
+
+from math import degrees
+print(degrees(Vector.angleBetween(Vector(1), Vector(0, 0))))
