@@ -30,7 +30,9 @@ class Vector:
         return self
 
     def setLength(self, length):
-        self.mult(length / self.length())
+        if self.length() > 0:
+            self.mult(length / self.length())
+            return self
         return self
 
     def length(self):
@@ -119,7 +121,7 @@ class Vector:
             v22.projection.append(0)
         if v11.length() != 0 and v22.length() != 0:
             a = sum([v11[i] * v22[i] for i in range(2)]) / v11.length() / v22.length()
-            return acos(a)
+            return acos(round(a, 5))
         return 0
 
 
