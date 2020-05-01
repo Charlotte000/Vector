@@ -39,11 +39,6 @@ _Vector.round()_ - returns the rounded projection of the vector as a tuple
 v1.round()
 ```
 ---
-_Vector.rotate2d(angle)_ - rotates the vector by Z axis by _angle_ in radians
-```python
-v1.rotate2D(3.14)
-```
----
 _Vector.fromPoints(point1, point2)_ - returns the vector between point1 and point2
 ```python
 Vector.fromPoints([1, 2, 3], [4, 5])
@@ -62,4 +57,29 @@ Vector.average(v1, v2)
 _Vector.random(dimension)_ - returns the random unit vector of _dimension_
 ```python
 Vector.random(3)
+```
+---
+_Vector.angle()_ - returns the vector angle
+```python
+v1.setLength(1)
+```
+---
+_Vector.setAngle(angle)_ - sets the vector _angle_
+```python
+v1.setAngle(3.14)
+```
+---
+_Vector.angleBetween(v1, v2)_ - returns the angle between v1 and v2 on XY plane
+```python
+Vector.angleBetween(v1, v2)
+```
+---
+_Vector.rotate2d(angle)_ - rotates the vector by Z axis by _angle_ in radians
+```python
+v1.rotate2D(3.14)
+```
+---
+_Vector.copy()_ - returns the copy of the vector
+```python
+v1.copy()
 ```

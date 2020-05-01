@@ -69,6 +69,11 @@ class Vector:
             else:
                 return 0
 
+    def setAngle(self, angle):
+        v = Vector.fromAngle(angle)
+        v.mult(self.length())
+        self.projection = v.projection
+
     def round(self):
         return [round(i) for i in self.projection]
 
