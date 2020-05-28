@@ -158,5 +158,24 @@ class Vector:
             return 0
         return self.projection[item]
 
+    def __setitem__(self, item, value):
+        if isinstance(item, int):
+            if len(self.projection) < item + 1:
+                self.projection.extend([0] * (item + 1 - len(self.projection)))
+            self.projection[item] = value
+        else:
+            i = [i for i in range(len(self.projection))]
+            for j in i[item]:
+                self.projection[j] = value
 
-print(Vector.angleBetween(Vector(1, 0), Vector(0, 1)))
+    def __getattr__(self, name):
+        for i, n in enumerate(['x', 'y', 'z']):
+            if n == name:
+                return self[i]
+
+    def __setattr__(self, name, value):
+        for i, n in enumerate(['x', 'y', 'z']):
+            if n == name:
+                self[i] = value
+                return
+        return super().__setattr__(name, value)
