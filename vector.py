@@ -72,7 +72,8 @@ class Vector:
     def setAngle(self, angle):
         v = Vector.fromAngle(angle)
         v.mult(self.length())
-        self.projection = v.projection
+        self.projection[0] = v.projection[0]
+        self.projection[1] = v.projection[1]
 
     def round(self):
         return [round(i) for i in self.projection]
@@ -156,3 +157,6 @@ class Vector:
         if isinstance(item, int) and item >= len(self.projection):
             return 0
         return self.projection[item]
+
+
+print(Vector.angleBetween(Vector(1, 0), Vector(0, 1)))
