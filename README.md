@@ -84,3 +84,8 @@ _Vector.copy()_ - returns the copy of the vector
 ```python
 v1.copy()
 ```
+---
+_Vector.DEGREES_ - bool variable that enables working with degrees. False by default
+```python
+Vector.DEGREES = True
+```

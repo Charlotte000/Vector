@@ -1,9 +1,10 @@
-from math import sqrt, cos, sin, acos, atan2
+from math import sqrt, cos, sin, acos, atan2, degrees, radians
 from random import uniform
 
 
 class Vector:
     AXES = ['x', 'y', 'z']
+    DEGREES = False
 
     def __init__(self, *projection):
         if projection:
@@ -41,7 +42,10 @@ class Vector:
         return sqrt(sum([pow(d, 2) for d in self.projection]))
 
     def angle(self):
-        return atan2(self[1], self[0])
+        a = atan2(self[1], self[0])
+        if Vector.DEGREES:
+            return degrees(a)
+        return a
 
     def setAngle(self, angle):
         v = Vector.fromAngle(angle)
@@ -55,6 +59,9 @@ class Vector:
     def rotate2d(self, angle):
         if len(self.projection) < 2:
             self.projection.extend([0] * (2 - len(self.projection)))
+
+        if Vector.DEGREES:
+            angle = radians(angle)
         x = self.projection[0] * cos(angle) - self.projection[1] * sin(angle)
         y = self.projection[0] * sin(angle) + self.projection[1] * cos(angle)
 
@@ -92,7 +99,10 @@ class Vector:
     
     @staticmethod
     def angleBetween(v1, v2):
-        return atan2(v1.x * v2.y - v1.y * v2.x, v1.x * v2.x + v1.y * v2.y);
+        a = atan2(v1.x * v2.y - v1.y * v2.x, v1.x * v2.x + v1.y * v2.y)
+        if Vector.DEGREES:
+            return degrees(a)
+        return a
 
     def __add__(self, vector):
         if isinstance(vector, Vector):
