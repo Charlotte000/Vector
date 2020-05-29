@@ -1,6 +1,7 @@
 # Vector
 
 It is s a simple Vector class in Python. Vector class provides multi dimensional vectors and its converting. 
+It also supports the use of mathematical expressions, such as +, -, /, *
 
 ---
 _Vector(*projection)_ - you can pass as many dimension vector as you want.
@@ -59,9 +60,9 @@ _Vector.random(dimension)_ - returns the random unit vector of _dimension_
 Vector.random(3)
 ```
 ---
-_Vector.angle()_ - returns the vector angle
+_Vector.angle()_ - returns the vector angle between -pi and pi
 ```python
-v1.setLength(1)
+v1.angle()
 ```
 ---
 _Vector.setAngle(angle)_ - sets the vector _angle_
@@ -69,7 +70,7 @@ _Vector.setAngle(angle)_ - sets the vector _angle_
 v1.setAngle(3.14)
 ```
 ---
-_Vector.angleBetween(v1, v2)_ - returns the angle between v1 and v2 on XY plane
+_Vector.angleBetween(v1, v2)_ - returns the angle between v1 and v2 on XY plane between -pi and pi
 ```python
 Vector.angleBetween(v1, v2)
 ```

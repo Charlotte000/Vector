@@ -1,8 +1,10 @@
-from math import sqrt, atan, pi, cos, sin, acos
+from math import sqrt, cos, sin, acos, atan2
 from random import uniform
 
 
 class Vector:
+    AXES = ['x', 'y', 'z']
+
     def __init__(self, *projection):
         if projection:
             self.projection = [i for i in projection]
@@ -39,35 +41,7 @@ class Vector:
         return sqrt(sum([pow(d, 2) for d in self.projection]))
 
     def angle(self):
-        if len(self.projection) < 2:
-            if len(self.projection) == 1:
-                ax, ay = self.projection[0], 0
-            else:
-                ax, ay = 0, 0
-        else:
-            ax, ay = self.projection[:2]
-
-        if ax > 0:
-            if ay > 0:
-                return atan(ay / ax)
-            elif ay < 0:
-                return atan(ay / ax) + pi * 2
-            else:
-                return 0
-        elif ax < 0:
-            if ay > 0:
-                return pi + atan(ay / ax)
-            elif ay < 0:
-                return pi + atan(ay / ax)
-            else:
-                return pi
-        else:
-            if ay > 0:
-                return pi * .5
-            elif ay < 0:
-                return pi * 1.5
-            else:
-                return 0
+        return atan2(self[1], self[0])
 
     def setAngle(self, angle):
         v = Vector.fromAngle(angle)
@@ -118,18 +92,7 @@ class Vector:
     
     @staticmethod
     def angleBetween(v1, v2):
-        v11 = v1.copy()
-        v22 = v2.copy()
-
-        if len(v11.projection) == 1:
-            v11.projection.append(0)
-        if len(v22.projection) == 1:
-            v22.projection.append(0)
-        if v11.length() != 0 and v22.length() != 0:
-            a = sum([v11[i] * v22[i] for i in range(2)]) / v11.length() / v22.length()
-            return acos(round(a, 5))
-        return 0
-
+        return atan2(v1.x * v2.y - v1.y * v2.x, v1.x * v2.x + v1.y * v2.y);
 
     def __add__(self, vector):
         if isinstance(vector, Vector):
@@ -169,13 +132,21 @@ class Vector:
                 self.projection[j] = value
 
     def __getattr__(self, name):
-        for i, n in enumerate(['x', 'y', 'z']):
+        for i, n in enumerate(Vector.AXES):
             if n == name:
                 return self[i]
 
     def __setattr__(self, name, value):
-        for i, n in enumerate(['x', 'y', 'z']):
+        for i, n in enumerate(Vector.AXES):
             if n == name:
                 self[i] = value
                 return
         return super().__setattr__(name, value)
+
+    def __eq__(self, other):
+        v1 = self.copy()
+        v2 = other.copy()
+        v2 *= -1
+        if (v1 + v2).length() == 0:
+            return True
+        return False
