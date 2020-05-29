@@ -1,6 +1,6 @@
 # Vector
 
-It is s a simple Vector class in Python. Vector class provides multi dimensional vectors and its converting. 
+It is a simple Vector class in Python. Vector class provides multi dimensional vectors and its converting.  
 It also supports the use of mathematical expressions, such as +, -, /, *
 
 ---
