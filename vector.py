@@ -1,4 +1,4 @@
-from math import sqrt, cos, sin, acos, atan2, degrees, radians
+from math import sqrt, cos, sin, acos, atan2, degrees, radians, ceil, floor
 from random import uniform
 
 
@@ -14,10 +14,8 @@ class Vector:
 
     def add(self, *vectors):
         for vector in vectors:
-            if len(self.projection) < len(vector.projection):
-                self.projection.extend([0] * (len(vector.projection) - len(self.projection)))
             for i in range(len(vector.projection)):
-                self.projection[i] += vector.projection[i]
+                self[i] += vector[i]
         return self
 
     def remove(self, *vectors):
@@ -29,7 +27,7 @@ class Vector:
 
     def mult(self, value):
         for i in range(len(self.projection)):
-            self.projection[i] *= value
+            self[i] *= value
         return self
 
     def setLength(self, length):
@@ -39,7 +37,7 @@ class Vector:
         return self
 
     def length(self):
-        return sqrt(sum([pow(d, 2) for d in self.projection]))
+        return sqrt(sum([pow(d, 2) for d in self]))
 
     def angle(self):
         a = atan2(self[1], self[0])
@@ -50,26 +48,24 @@ class Vector:
     def setAngle(self, angle):
         v = Vector.fromAngle(angle)
         v.mult(self.length())
-        self.projection[0] = v.projection[0]
-        self.projection[1] = v.projection[1]
+        self[0] = v[0]
+        self[1] = v[1]
+        return self
 
     def round(self):
-        return [round(i) for i in self.projection]
+        return [round(i) for i in self]
 
     def rotate2d(self, angle):
-        if len(self.projection) < 2:
-            self.projection.extend([0] * (2 - len(self.projection)))
-
         if Vector.DEGREES:
             angle = radians(angle)
-        x = self.projection[0] * cos(angle) - self.projection[1] * sin(angle)
-        y = self.projection[0] * sin(angle) + self.projection[1] * cos(angle)
+        x = self[0] * cos(angle) - self[1] * sin(angle)
+        y = self[0] * sin(angle) + self[1] * cos(angle)
 
-        self.projection[0], self.projection[1] = x, y
+        self[0], self[1] = x, y
         return self
 
     def copy(self):
-        return Vector(*[i for i in self.projection])
+        return Vector(*[i for i in self])
     
     @staticmethod
     def fromPoints(point1, point2):
@@ -120,15 +116,12 @@ class Vector:
         if type(number) in [int, float]:
             return self.copy().mult(1 / number)
 
-    def __round__(self):
-        return self.round()
-
     def __str__(self):
         return 'Vector' + str(self.projection) + ""
 
     def __getitem__(self, item):
         if isinstance(item, int) and item >= len(self.projection):
-            return 0
+            return self.__missing__(item)
         return self.projection[item]
 
     def __setitem__(self, item, value):
@@ -137,9 +130,9 @@ class Vector:
                 self.projection.extend([0] * (item + 1 - len(self.projection)))
             self.projection[item] = value
         else:
-            i = [i for i in range(len(self.projection))]
+            i = [q for q in range(len(self.projection))]
             for j in i[item]:
-                self.projection[j] = value
+                self[j] = value
 
     def __getattr__(self, name):
         for i, n in enumerate(Vector.AXES):
@@ -153,6 +146,24 @@ class Vector:
                 return
         return super().__setattr__(name, value)
 
+    def __round__(self):
+        return self.round()
+
+    def __ceil__(self):
+        return Vector(*[ceil(i) for i in self.projection])
+    
+    def __floor__(self):
+        return Vector(*[floor(i) for i in self.projection])
+
+    def __len__(self):
+        return len(self.projection)
+
+    def __iter__(self):
+        return iter(self.projection)
+
+    def __missing__(self, key):
+        return 0
+
     def __eq__(self, other):
         v1 = self.copy()
         v2 = other.copy()
@@ -160,3 +171,9 @@ class Vector:
         if (v1 + v2).length() == 0:
             return True
         return False
+
+    def __lt__(self, vector):
+        return self.length() < vector.length()
+
+    def __le__(self, vector):
+        return (self < vector) or (self == vector)
