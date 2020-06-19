@@ -1,28 +1,13 @@
 # Vector
 
-It is a simple Vector class in Python. Vector class provides multi dimensional vectors and its converting.  
+It is a simple Vector class in Python. Vector class provides max 3 dimensional vectors and its converting.  
 It also supports the use of mathematical expressions, such as +, -, /, *
 
 ---
-_Vector(*projection)_ - you can pass as many dimension vector as you want.
+_Vector(x, y, z)_ - you can pass x, y, z or list.
 ```python
-v1 = Vector(1, 2, 3, 4)
+v1 = Vector(1, 2, 3)
 v2 = Vector(5, 6)
-```
----
-_Vector.add(*vectors)_ - adds all _vectors_ to v1
-```python
-v1.add(v2)
-```
----
-_Vector.remove(*vectors)_ - subtracts all _vectors_ from v1
-```python
-v1.remove(v2)
-```
----
-_Vector.mult(value)_ - multiplies v1 by _number_
-```python
-v1.mult(5)
 ```
 ---
 _Vector.setLength(length)_ - sets the vector length to _length_
@@ -55,12 +40,17 @@ _Vector.average(*vectors)_ - returns the mean vector
 Vector.average(v1, v2)
 ```
 ---
-_Vector.random(dimension)_ - returns the random unit vector of _dimension_
+_Vector.random2D()_ - returns a 2d random unit vector
 ```python
-Vector.random(3)
+Vector.random2D()
 ```
 ---
-_Vector.angle()_ - returns the vector angle between -pi and pi
+_Vector.random3D()_ - returns a 3d random unit vector
+```python
+Vector.random3D()
+```
+---
+_Vector.angle()_ - returns the vector angle between -pi and pi on XY plane
 ```python
 v1.angle()
 ```
@@ -77,12 +67,17 @@ Vector.angleBetween(v1, v2)
 ---
 _Vector.rotate2d(angle)_ - rotates the vector by Z axis by _angle_ in radians
 ```python
-v1.rotate2D(3.14)
+v1.rotate2D(pi)
 ```
 ---
 _Vector.copy()_ - returns the copy of the vector
 ```python
 v1.copy()
+```
+---
+_Vector.constrain(minValue, maxValue)_ - constraints vector's length between _minValue_ and _maxValue_
+```python
+v1.constrain(1, 2)
 ```
 ---
 _Vector.DEGREES_ - bool variable that enables working with degrees. False by default

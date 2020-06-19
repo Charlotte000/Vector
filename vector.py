@@ -1,95 +1,95 @@
-from math import sqrt, cos, sin, acos, atan2, degrees, radians, ceil, floor
+from math import sqrt, cos, sin, atan2, degrees, radians
 from random import uniform
 
 
 class Vector:
-    AXES = ['x', 'y', 'z']
     DEGREES = False
 
-    def __init__(self, *projection):
-        if projection:
-            self.projection = [i for i in projection]
+    def __init__(self, x=0, y=0, z=0):
+        if type(x) in [list, tuple]:
+            if len(x) == 1:
+                self.x = x[:]
+                self.y = self.z = 0
+            elif len(x) == 2:
+                self.x, self.y = x[:]
+                self.z = 0
+            elif len(x) == 3:
+                self.x, self.y, self.z = x[:]
         else:
-            self.projection = []
-
-    def add(self, *vectors):
-        for vector in vectors:
-            for i in range(len(vector.projection)):
-                self[i] += vector[i]
-        return self
-
-    def remove(self, *vectors):
-        for vector in vectors:
-            vector2 = vector.copy()
-            vector2.mult(-1)
-            self.add(vector2)
-        return self
-
-    def mult(self, value):
-        for i in range(len(self.projection)):
-            self[i] *= value
-        return self
+            self.x = x
+            self.y = y
+            self.z = z
 
     def setLength(self, length):
-        if self.length() > 0:
-            self.mult(length / self.length())
-            return self
+        ve = self.copy()
+        if ve.length() > 0:
+            ve *= length / ve.length()
+            self.x, self.y, self.z = ve.x, ve.y, ve.z
         return self
 
     def length(self):
-        return sqrt(sum([pow(d, 2) for d in self]))
+        return sqrt(pow(self.x, 2) + pow(self.y, 2) + pow(self.z, 2))
 
     def angle(self):
-        a = atan2(self[1], self[0])
+        a = atan2(self.y, self.x)
         if Vector.DEGREES:
             return degrees(a)
         return a
 
     def setAngle(self, angle):
         v = Vector.fromAngle(angle)
-        v.mult(self.length())
-        self[0] = v[0]
-        self[1] = v[1]
+        v *= self.length()
+        self.x = v.x
+        self.y = v.y
         return self
 
-    def round(self):
-        return [round(i) for i in self]
-
-    def rotate2d(self, angle):
+    def rotate(self, angle):
         if Vector.DEGREES:
             angle = radians(angle)
-        x = self[0] * cos(angle) - self[1] * sin(angle)
-        y = self[0] * sin(angle) + self[1] * cos(angle)
+        x = self.x * cos(angle) - self.y * sin(angle)
+        y = self.x * sin(angle) + self.y * cos(angle)
 
-        self[0], self[1] = x, y
+        self.x, self.y = x, y
         return self
 
     def copy(self):
-        return Vector(*[i for i in self])
+        return Vector(self.x, self.y, self.z)
+
+    def constrain(self, minValue, maxValue):
+        le = self.length()
+        if le > maxValue:
+            self.setLength(maxValue)
+        elif le < minValue:
+            self.setLength(minValue)
+        return self
     
     @staticmethod
     def fromPoints(point1, point2):
-        v1 = Vector(*point1)
-        v2 = Vector(*point2)
-        v2.remove(v1)
-        return v2
+        return Vector(*point2) - Vector(*point1)
 
     @staticmethod
     def fromAngle(angle):
         v = Vector(1, 0)
-        v.rotate2d(angle)
+        v.rotate(angle)
         return v
     
     @staticmethod
     def average(*vectors):
         v = Vector()
-        v.add(*vectors)
-        v.mult(1 / len(vectors))
+        for vec in vectors:
+            v += vec
+        v /= len(vectors)
         return v
 
     @staticmethod
-    def random(dimension=2):
-        a = Vector(*[uniform(-1, 1) for _ in range(dimension)])
+    def random2D():
+        a = Vector(uniform(-1, 1), uniform(-1, 1))
+        a.setLength(1)
+        return a
+
+    @staticmethod
+    def random3D():
+        a = Vector(uniform(-1, 1), uniform(-1, 1), uniform(-1, 1))
         a.setLength(1)
         return a
     
@@ -101,74 +101,63 @@ class Vector:
         return a
 
     def __add__(self, vector):
-        if isinstance(vector, Vector):
-            return self.copy().add(vector)
+        v = self.copy()
+        v.x += vector.x
+        v.y += vector.y
+        v.z += vector.z
+        return v
 
     def __sub__(self, vector):
-        if isinstance(vector, Vector):
-            return self.copy().remove(vector)
+        v = self.copy()
+        v.x -= vector.x
+        v.y -= vector.y
+        v.z -= vector.z
+        return v
 
     def __mul__(self, number):
-        if type(number) in [int, float]:
-            return self.copy().mult(number)
+        v = self.copy()
+        v.x *= number
+        v.y *= number
+        v.z *= number
+        return v
 
     def __truediv__(self, number):
-        if type(number) in [int, float]:
-            return self.copy().mult(1 / number)
+        v = self.copy()
+        v.x /= number
+        v.y /= number
+        v.z /= number
+        return v
 
     def __str__(self):
-        return 'Vector' + str(self.projection) + ""
+        return f'Vector[{self.x}, {self.y}, {self.z}]'
 
     def __getitem__(self, item):
-        if isinstance(item, int) and item >= len(self.projection):
-            return self.__missing__(item)
-        return self.projection[item]
+        if item == 0:
+            return self.x
+        if item == 1:
+            return self.y
+        if item == 2:
+            return self.z
+        raise IndexError
 
     def __setitem__(self, item, value):
-        if isinstance(item, int):
-            if len(self.projection) < item + 1:
-                self.projection.extend([0] * (item + 1 - len(self.projection)))
-            self.projection[item] = value
+        if item == 0:
+            self.x = value
+        elif item == 1:
+            self.y = value
+        elif item == 2:
+            self.z = value
         else:
-            i = [q for q in range(len(self.projection))]
-            for j in i[item]:
-                self[j] = value
-
-    def __getattr__(self, name):
-        for i, n in enumerate(Vector.AXES):
-            if n == name:
-                return self[i]
-
-    def __setattr__(self, name, value):
-        for i, n in enumerate(Vector.AXES):
-            if n == name:
-                self[i] = value
-                return
-        return super().__setattr__(name, value)
+            raise IndexError
 
     def __round__(self):
-        return self.round()
-
-    def __ceil__(self):
-        return Vector(*[ceil(i) for i in self.projection])
-    
-    def __floor__(self):
-        return Vector(*[floor(i) for i in self.projection])
-
-    def __len__(self):
-        return len(self.projection)
+        return Vector(round(self.x), round(self.y), round(self.z))
 
     def __iter__(self):
-        return iter(self.projection)
-
-    def __missing__(self, key):
-        return 0
+        return iter([self.x, self.y, self.z])
 
     def __eq__(self, other):
-        v1 = self.copy()
-        v2 = other.copy()
-        v2 *= -1
-        if (v1 + v2).length() == 0:
+        if self.x == other.x and self.y == other.y and self.z == other.z:
             return True
         return False
 
