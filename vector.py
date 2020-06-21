@@ -132,13 +132,7 @@ class Vector:
         return f'Vector[{self.x}, {self.y}, {self.z}]'
 
     def __getitem__(self, item):
-        if item == 0:
-            return self.x
-        if item == 1:
-            return self.y
-        if item == 2:
-            return self.z
-        raise IndexError
+        return [self.x, self.y, self.z][item]
 
     def __setitem__(self, item, value):
         if item == 0:
