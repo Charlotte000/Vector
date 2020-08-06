@@ -11,7 +11,7 @@ v1 = Vector3(1, 2, 3)
 v2 = Vector2(5, 6)
 ```
 ---
-_Vector2.setLength(length)_ - sets the vector length to _length_
+_Vector2.setLength(length)_ - sets the vector length to _length_  
 _Vector3.setLength(length)_ - same
 ```python
 v1.setLength(1)
